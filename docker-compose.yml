@@ -8,18 +8,6 @@ services:
     restart: on-failure
     command: stdbuf -o L roscore
 
-  # ROS Bridge Websocket
-  ros-bridge:
-    build:
-      dockerfile: ros_bridge.Dockerfile
-      context: ./
-    restart: on-failure
-    environment:
-      - "ROS_MASTER_URI=http://ros-master:11311"
-    ports:
-      - "9090:9090"
-    command: roslaunch rosbridge_server rosbridge_websocket.launch
-
   # ROS 1 talker
   talker:
     image: osrf/ros:noetic-desktop
@@ -28,11 +16,40 @@ services:
       - "ROS_MASTER_URI=http://ros-master:11311"
     command: rosrun rospy_tutorials talker
 
+  # ROS Bridge Websocket
+  ros-bridge:
+    build:
+      dockerfile: ros_bridge.Dockerfile
+      context: ./
+    restart: on-failure
+    environment:
+      - "ROS_MASTER_URI=http://ros-master:11311"
+    # ports:
+    #   - "9090:9090"
+    command: roslaunch rosbridge_server rosbridge_websocket.launch
+
   # webserver (listener)
   webserver:
     build:
       dockerfile: webserver.Dockerfile
       context: ./
     restart: on-failure
-    ports:
-      - "80:80"
+    network_mode: service:husarnet-talker
+    # ports:
+    #   - "80:80"
+
+  # Husarnet
+  husarnet-talker:
+    image: husarnet/husarnet
+    volumes:
+      - /var/lib/husarnet  # This will persist your Husarnet Client keys, thus IP of the container will be stable/the same between (re)boots
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0  # Husarnet is using IPv6 for the internal connections
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    environment:
+      - HOSTNAME=talker-over-rosbridge-ws
+    env_file:
+      - ./.env  # create .env file in the same folder
