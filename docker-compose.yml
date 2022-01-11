@@ -10,16 +10,18 @@ services:
 
   # ROS 1 talker
   talker:
-    image: osrf/ros:noetic-desktop
+    build:
+      dockerfile: ros_talker.Dockerfile
+      context: ./
     restart: on-failure
     environment:
       - "ROS_MASTER_URI=http://ros-master:11311"
-    command: rosrun rospy_tutorials talker
+    command: rosrun roscpp_tutorials talker
 
   # ROS Bridge Websocket
-  ros-bridge-ws:
+  rosbridge-ws:
     build:
-      dockerfile: ros_bridge.Dockerfile
+      dockerfile: rosbridge_ws.Dockerfile
       context: ./
     restart: on-failure
     environment:
