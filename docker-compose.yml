@@ -1,0 +1,26 @@
+version: "2.3"
+
+services:
+
+  # ROS Master
+  ros-master:
+    image: ros:noetic-ros-core
+    restart: on-failure
+    command: stdbuf -o L roscore
+
+  # ROS Bridge
+  ros-bridge:
+    build: .
+    restart: on-failure
+    environment:
+      - "ROS_MASTER_URI=http://ros-master:11311"
+    ports:
+      - "9090:9090"
+    command: roslaunch rosbridge_server rosbridge_websocket.launch
+
+  # ROS 1 talker
+  talker:
+    image: osrf/ros:noetic-desktop
+    environment:
+      - "ROS_MASTER_URI=http://ros-master:11311"
+    command: rosrun rospy_tutorials talker
