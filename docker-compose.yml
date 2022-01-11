@@ -24,19 +24,17 @@ services:
     restart: on-failure
     environment:
       - "ROS_MASTER_URI=http://ros-master:11311"
-    # ports:
-    #   - "9090:9090"
     command: roslaunch rosbridge_server rosbridge_websocket.launch
 
-  # webserver (listener)
+  # nginx webserver
+  # - hosting index.html and index.js at :80
+  # - proxy to ros-bridge-ws service (that doesn't support IPv6) at :9090
   webserver:
     build:
       dockerfile: webserver.Dockerfile
       context: ./
     restart: on-failure
     network_mode: service:husarnet-talker
-    # ports:
-    #   - "80:80"
 
   # Husarnet
   husarnet-talker:
