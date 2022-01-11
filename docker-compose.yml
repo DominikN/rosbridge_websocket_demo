@@ -17,7 +17,7 @@ services:
     command: rosrun rospy_tutorials talker
 
   # ROS Bridge Websocket
-  ros-bridge:
+  ros-bridge-ws:
     build:
       dockerfile: ros_bridge.Dockerfile
       context: ./
