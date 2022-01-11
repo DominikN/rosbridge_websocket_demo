@@ -10,7 +10,9 @@ services:
 
   # ROS Bridge
   ros-bridge:
-    build: .
+    build:
+      dockerfile: ros_bridge.Dockerfile
+      context: ./
     restart: on-failure
     environment:
       - "ROS_MASTER_URI=http://ros-master:11311"
@@ -21,6 +23,16 @@ services:
   # ROS 1 talker
   talker:
     image: osrf/ros:noetic-desktop
+    restart: on-failure
     environment:
       - "ROS_MASTER_URI=http://ros-master:11311"
     command: rosrun rospy_tutorials talker
+
+  # webserver (listener)
+  webserver:
+    build:
+      dockerfile: webserver.Dockerfile
+      context: ./
+    restart: on-failure
+    ports:
+      - "80:80"
