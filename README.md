@@ -29,11 +29,11 @@ Connect **the second computer** ("the laptop") to the same Husarnet network as *
 
 And open the following URL in your web browser (**tested on Firefox**):
 
-http://talker-over-rosbridge-ws:80/
+`http://talker-over-rosbridge-ws:80`
 
 or
 
-http://[<PLACE_HERE_HUSARNET_IPV6_ADDR_OF_ROSBRIDGE_SERVER_DEMO>]:80
+`http://[<PLACE_HERE_HUSARNET_IPV6_ADDR_OF_ROSBRIDGE_SERVER_DEMO>]:80`
 
 Click **right mouse button** and select `Inspect` option. Go to `Console` tab where you should see messages from the talker node:
 
