@@ -20,7 +20,7 @@ You will find your Join Code at **https://app.husarnet.com
 On **the first computer** ("the robot") run:
 
 ```bash
-docker-compose  up --build
+docker-compose up --build
 ```
 
 ### Access the webserver over the Internet (listener)
