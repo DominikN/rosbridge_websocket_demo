@@ -27,16 +27,33 @@ services:
     environment:
       - "ROS_MASTER_URI=http://ros-master:11311"
     command: roslaunch rosbridge_server rosbridge_websocket.launch
+    expose:
+     - 9090
+    labels:
+      - "traefik.ws.routers.rosbridge-ws.rule=Host(`talker-over-rosbridge-ws`)"
+      - "traefik.port=9090"
 
   # nginx webserver
   # - hosting index.html and index.js at :80
-  # - proxy to ros-bridge-ws service (that doesn't support IPv6) at :9090
   webserver:
     build:
       dockerfile: webserver.Dockerfile
       context: ./
     restart: on-failure
+    expose:
+     - 80
+    labels:
+      - "traefik.http.routers.webserver.rule=Host(`talker-over-rosbridge-ws`)"
+      - "traefik.port=80"
+
+  reverse-proxy:
+    image: traefik:v2.5
+    command: --api.insecure=true --providers.docker
     network_mode: service:husarnet-talker
+    # ports:
+    #   - "9090:9090"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   # Husarnet
   husarnet-talker:
