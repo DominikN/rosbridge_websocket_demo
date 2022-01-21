@@ -30,7 +30,8 @@ services:
     expose:
      - 9090
     labels:
-      - "traefik.ws.routers.rosbridge-ws.rule=Host(`talker-over-rosbridge-ws`)"
+      - "traefik.protocol=ws"
+      - "traefik.http.routers.rosbridge-ws.rule=Host(`talker-over-rosbridge-ws`)"
       - "traefik.port=9090"
 
   # nginx webserver
