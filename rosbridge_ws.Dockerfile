@@ -1,6 +1,8 @@
-FROM ros:noetic-ros-core
+FROM ros:galactic-ros-core
 
 SHELL ["/bin/bash", "-c"]
 
 RUN apt update && apt install -y \
-    ros-noetic-rosbridge-server
+    ros-galactic-rosbridge-server
+
+EXPOSE 9090

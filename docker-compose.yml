@@ -2,21 +2,13 @@ version: "2.3"
 
 services:
 
-  # ROS Master
-  ros-master:
-    image: ros:noetic-ros-core
-    restart: on-failure
-    command: stdbuf -o L roscore
-
-  # ROS 1 talker
+  # ROS 2 talker
   talker:
     build:
       dockerfile: ros_talker.Dockerfile
       context: ./
     restart: on-failure
-    environment:
-      - "ROS_MASTER_URI=http://ros-master:11311"
-    command: rosrun roscpp_tutorials talker
+    command: ros2 run demo_nodes_cpp talker
 
   # ROS Bridge Websocket
   rosbridge-ws:
@@ -24,9 +16,7 @@ services:
       dockerfile: rosbridge_ws.Dockerfile
       context: ./
     restart: on-failure
-    environment:
-      - "ROS_MASTER_URI=http://ros-master:11311"
-    command: roslaunch rosbridge_server rosbridge_websocket.launch
+    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   # nginx webserver
   # - hosting index.html and index.js at :80

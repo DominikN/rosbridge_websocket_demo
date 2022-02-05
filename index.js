@@ -1,3 +1,5 @@
+let listener = document.getElementById("listener");
+
 var ros = new ROSLIB.Ros();
 
 ros.on('connection', function () {
@@ -25,4 +27,5 @@ var chatter = new ROSLIB.Topic({
 // Then we add a callback to be called every time a message is published on this topic.
 chatter.subscribe(function (message) {
     console.log('Received message on ' + chatter.name + ': ' + message.data);
+    listener.innerText = message.data;
 });

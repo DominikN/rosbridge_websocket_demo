@@ -3,13 +3,21 @@
 
 <head>
     <meta charset="utf-8" />
-    <script src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
-    <script src="http://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
-    <script src="/index.js"></script>
 </head>
 
 <body>
     <p>Open a console to see messages from a talker ROS node</p>
+
+    <table>
+        <tr>
+            <td>last message: </td>
+            <td id="listener" style="background-color:green; "></td>
+        </tr>
+    </table>
 </body>
+
+<script src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
+<script src="http://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
+<script src="/index.js"></script>
 
 </html>
